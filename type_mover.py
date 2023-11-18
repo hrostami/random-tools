@@ -33,7 +33,7 @@ def get_user_input():
     file_type = colored("\nPlease enter the file type you want to move: ", yellow, is_input=True)
     file_type = file_type if file_type.startswith('.') else f'.{file_type}'
 
-    return cwd, file_type if file_type else None, None
+    return cwd, file_type if file_type else None
 
 
 def reverser(cwd: str, file_type: str):
