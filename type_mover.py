@@ -116,15 +116,18 @@ def mover(cwd: str, file_type: str):
         colored('----------------------------------------------\n', blue)
 
 cwd, file_type = get_user_input()
-move_dir = os.path.join(cwd,f'{file_type[1:]}_files')
-if os.path.exists(move_dir):
-    colored(f'\nThe directory {file_type[1:]}_files already exists!', red)
-    op = colored('\nDo you want Reverse the operation or Proceed (R/P)? ',yellow,is_input=True)
-    if op.lower() == 'p':
-        mover(cwd, file_type)
-    elif op.lower() == 'r':
-        reverser(cwd, file_type)
+if file_type :
+    move_dir = os.path.join(cwd,f'{file_type[1:]}_files')
+    if os.path.exists(move_dir):
+        colored(f'\nThe directory {file_type[1:]}_files already exists!', red)
+        op = colored('\nDo you want Reverse the operation or Proceed (R/P)? ',yellow,is_input=True)
+        if op.lower() == 'p':
+            mover(cwd, file_type)
+        elif op.lower() == 'r':
+            reverser(cwd, file_type)
+        else:
+            colored('\nWrong input, exiting...\n', yellow)
     else:
-        colored('\nWrong input, exiting...\n', yellow)
+        mover(cwd, file_type)
 else:
-    mover(cwd, file_type)
+    colored('File type cant be empty!', red)
