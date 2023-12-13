@@ -23,14 +23,17 @@ install_fail2ban() {
 }
 
 configure_fail2ban() {
-    yellow "configuring fail2ban"
+    yellow "Configuring fail2ban"
     sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-    sudo sed -i '/^\[sshd\]/,/^\[/ s/^enabled = .*/enabled = true/' /etc/fail2ban/jail.local
-    sudo sed -i '/^\[sshd\]/,/^\[/ s/^port = .*/port = ssh/' /etc/fail2ban/jail.local
-    sudo sed -i '/^\[sshd\]/,/^\[/ s/^filter = .*/filter = sshd/' /etc/fail2ban/jail.local
-    sudo sed -i '/^\[sshd\]/,/^\[/ s|^logpath = .*|logpath = /var/log/auth.log|' /etc/fail2ban/jail.local
-    sudo sed -i '/^\[sshd\]/,/^\[/ s/^maxretry = .*/maxretry = 3/' /etc/fail2ban/jail.local
-    sudo sed -i '/^\[sshd\]/,/^\[/ s/^bantime = .*/bantime = 360000/' /etc/fail2ban/jail.local
+    sudo cat <<EOF | sudo tee -a /etc/fail2ban/jail.local
+[ssh]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+bantime = 360000
+EOF
     sudo systemctl restart fail2ban
 }
 
