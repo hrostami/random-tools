@@ -17,9 +17,13 @@ readp(){ read -p "$(yellow "$1")" $2;}
 install_fail2ban() {
     sudo apt-get update
     sudo apt-get install fail2ban -y
+    sudo systemctl enable fail2ban
+    sudo systemctl start fail2ban
+    green "fail2ban Installed"
 }
 
 configure_fail2ban() {
+    yellow "configuring fail2ban"
     sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
     sudo sed -i '/^\[sshd\]/,/^\[/ s/^enabled = .*/enabled = true/' /etc/fail2ban/jail.local
     sudo sed -i '/^\[sshd\]/,/^\[/ s/^port = .*/port = ssh/' /etc/fail2ban/jail.local
@@ -43,16 +47,19 @@ configure_ssh() {
 }
 
 create_and_copy_ssh_key() {
+    yellow "Let's get you a key!"
     if [ -f ~/.ssh/id_rsa.pub ]; then
         yellow "SSH key already exists. Using existing key."
     else
+        yellow "Creating SSH key"
         ssh-keygen -t rsa -b 2048
     fi
 
+    readp "Enter the server-side username: " user
     readp "Enter the server IP: " server_ip
     readp "Enter the SSH port (default is 22): " ssh_port
     ssh_port=${ssh_port:-22}
-    ssh-copy-id -p $ssh_port user@$server_ip
+    ssh-copy-id -p $ssh_port $user@$server_ip
 }
 
 red "------------------Choose an option--------------------"
