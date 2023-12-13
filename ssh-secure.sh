@@ -14,6 +14,11 @@ rred(){ echo -e "\033[35m\033[01m$1\033[0m";}
 readtp(){ read -t5 -n26 -p "$(yellow "$1")" $2;}
 readp(){ read -p "$(yellow "$1")" $2;}
 
+check_fail2ban_status() {
+    sudo systemctl is-active --quiet fail2ban
+    return $?
+}
+
 install_fail2ban() {
     sudo apt-get update
     sudo apt-get install fail2ban -y
@@ -79,7 +84,7 @@ case $choice in
         create_and_copy_ssh_key
         ;;
     2)
-        if ! command -v fail2ban &> /dev/null; then
+        if ! check_fail2ban_status; then
             yellow "Installing Fail2Ban..."
             install_fail2ban
             configure_fail2ban
