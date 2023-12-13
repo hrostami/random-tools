@@ -6,3 +6,8 @@ A simple Python script that asks you for a directory and file type that you want
 ```bash
 python3 <(curl -sL https://raw.githubusercontent.com/hrostami/random-tools/main/type_mover.py)
 ```
+## ssh-secure.sh
+A shell script to setup fail2ban on your server and configure ssh to not use password authentication and use ssh key instead. Also you can create ssh key on your local machine and copy it to the server using this script.
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/hrostami/random-tools/main/ssh-secure.sh)
+```
