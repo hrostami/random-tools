@@ -51,6 +51,8 @@ configure_ssh() {
 
     if grep -q '^#PubkeyAuthentication no' $sshd_config; then
         sudo sed -i 's/^#PubkeyAuthentication no/PubkeyAuthentication yes/' $sshd_config
+    elif grep -q '^#PubkeyAuthentication yes' $sshd_config; then
+        sudo sed -i 's/^#PubkeyAuthentication yes/PubkeyAuthentication yes/' $sshd_config
     elif grep -q '^PubkeyAuthentication no' $sshd_config; then
         sudo sed -i 's/^PubkeyAuthentication no/PubkeyAuthentication yes/' $sshd_config
     elif ! grep -q '^PubkeyAuthentication' $sshd_config; then
