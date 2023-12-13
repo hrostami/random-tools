@@ -65,6 +65,8 @@ create_and_copy_ssh_key() {
     ssh-copy-id -p $ssh_port $user@$server_ip
 }
 
+echo
+echo
 red "------------------Choose an option--------------------"
 green "1. Local Machine (Generate SSH key and copy to server)"
 green "2. Server (Install Fail2Ban and configure SSH)"
