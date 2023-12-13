@@ -14,7 +14,7 @@ rred(){ echo -e "\033[35m\033[01m$1\033[0m";}
 readtp(){ read -t5 -n26 -p "$(yellow "$1")" $2;}
 readp(){ read -p "$(yellow "$1")" $2;}
 
-check_fail2ban_status() {
+check_fail2ban_installed() {
     sudo systemctl is-active --quiet fail2ban
     return $?
 }
@@ -84,12 +84,13 @@ case $choice in
         create_and_copy_ssh_key
         ;;
     2)
-        if ! check_fail2ban_status; then
+        if ! check_fail2ban_installed; then
             yellow "Installing Fail2Ban..."
             install_fail2ban
             configure_fail2ban
         else
             yellow "Fail2Ban is already installed."
+            configure_fail2ban
             check_fail2ban_status
         fi
 
