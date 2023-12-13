@@ -48,9 +48,20 @@ check_fail2ban_status() {
 
 configure_ssh() {
     sshd_config="/etc/ssh/sshd_config"
+
+    if grep -q '^#PubkeyAuthentication no' $sshd_config; then
+        sudo sed -i 's/^#PubkeyAuthentication no/PubkeyAuthentication yes/' $sshd_config
+    elif grep -q '^PubkeyAuthentication no' $sshd_config; then
+        sudo sed -i 's/^PubkeyAuthentication no/PubkeyAuthentication yes/' $sshd_config
+    elif ! grep -q '^PubkeyAuthentication' $sshd_config; then
+        echo "PubkeyAuthentication yes" | sudo tee -a $sshd_config
+    fi
+
+    # Other SSH configuration changes
     sudo sed -i 's/^PasswordAuthentication .*/PasswordAuthentication no/' $sshd_config
     sudo sed -i 's/^ChallengeResponseAuthentication .*/ChallengeResponseAuthentication no/' $sshd_config
     sudo sed -i 's/^UsePAM .*/UsePAM no/' $sshd_config
+
     sudo systemctl restart ssh
 }
 
