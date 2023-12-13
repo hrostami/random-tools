@@ -24,8 +24,8 @@ install_fail2ban() {
 
 configure_fail2ban() {
     yellow "Configuring fail2ban"
-    sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-    sudo cat <<EOF | sudo tee -a /etc/fail2ban/jail.local
+    # sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+    sudo cat << EOF > "/etc/fail2ban/jail.local"
 [ssh]
 enabled = true
 port = ssh
